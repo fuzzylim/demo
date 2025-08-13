@@ -1,0 +1,7 @@
+# GitHub Actions Configuration
+# This file helps configure default behaviors for GitHub Actions in this repository
+
+# Set default artifact retention to 1 day to minimize storage usage
+# This applies to workflows that don't specify their own retention period
+name: Default Artifact Configuration
+retention-days: 1

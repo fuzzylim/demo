@@ -32,3 +32,12 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
+
+# Test outputs and artifacts
+test-results.xml
+*.log
+*.tmp
+
+# GitHub Actions artifacts (should not be committed)
+artifacts/
+results/
