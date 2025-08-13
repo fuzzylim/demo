@@ -1,15 +1,66 @@
 # MCP Math Agent
 
-A Python MCP (Model Context Protocol) server that solves mathematical expressions and responds in Spanish. Designed for integration with VS Code Copilot.
+A Python MCP (Model Context Protocol) server that integrates with **VS Code Copilot** to solve mathematical expressions and respond in Spanish.
+
+## 🚀 Quick Start: Using with VS Code Copilot
+
+This MCP server allows VS Code Copilot to answer mathematical questions in Spanish. Here's how to set it up:
+
+### 1. Install and Configure
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the MCP server (runs in background for VS Code)
+python mcp_server.py
+```
+
+### 2. Configure VS Code
+
+Add this to your VS Code MCP configuration file (`mcpServers.json`):
+
+```json
+{
+  "mcpServers": {
+    "math-spanish": {
+      "command": "python",
+      "args": ["/absolute/path/to/mcp-math/mcp_server.py"],
+      "env": {},
+      "disabled": false,
+      "alwaysAllow": ["calcular_matematicas", "calculate_math"]
+    }
+  }
+}
+```
+
+**📍 Configuration file locations:**
+- **Windows:** `%APPDATA%\Code\User\globalStorage\github.copilot-chat\mcpServers.json`
+- **macOS:** `~/Library/Application Support/Code/User/globalStorage/github.copilot-chat/mcpServers.json`
+- **Linux:** `~/.config/Code/User/globalStorage/github.copilot-chat/mcpServers.json`
+
+### 3. Test with Copilot
+
+Restart VS Code, then ask Copilot math questions:
+
+```
+You: "What is 15 + 25?"
+Copilot: "La respuesta es: 40"
+
+You: "¿Cuánto es 7 * 8?"
+Copilot: "La respuesta es: 56"
+```
+
+> 📖 **Need detailed setup instructions?** See the [Complete VS Code Integration Guide](#vs-code-copilot-integration) below or [VSCODE_SETUP.md](VSCODE_SETUP.md) for a 5-minute setup guide.
 
 ## Features
 
-- ✅ MCP-compliant server for VS Code Copilot integration
-- ✅ Solves basic mathematical expressions (+, -, *, /, parentheses)
-- ✅ Responds in Spanish (always)
-- ✅ Safe expression evaluation with input validation
-- ✅ Error handling for invalid expressions and division by zero
-- ✅ Dual-language tool interface (Spanish and English tool names)
+- ✅ **VS Code Copilot Integration** - Works seamlessly with GitHub Copilot
+- ✅ **Spanish Responses** - All mathematical results returned in Spanish
+- ✅ **Dual Language Interface** - Accept questions in English or Spanish
+- ✅ **Safe Evaluation** - Protected against dangerous operations
+- ✅ **MCP Protocol Compliant** - Standard Model Context Protocol implementation
+- ✅ **Error Handling** - Graceful handling of invalid expressions and edge cases
 
 ## Installation
 
