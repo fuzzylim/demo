@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches: [ main, 'copilot/**' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          cd mcp-math
+          pip install flask
+          
+      - name: Test application
+        run: |
+          cd mcp-math
+          python -c "
+          import mcp_math_agent
+          result = mcp_math_agent.handle_request({'question': '2+2'})
+          print('Test result:', result)
+          assert 'La respuesta es: 4' in str(result)
+          print('✓ All tests passed')
+          "

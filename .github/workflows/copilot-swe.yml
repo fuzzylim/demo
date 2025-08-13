@@ -1,0 +1,44 @@
+name: Copilot SWE Agent
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - copilot/**
+
+jobs:
+  copilot:
+    runs-on: ubuntu-latest
+    env:
+      # Disable artifact uploads to prevent storage quota issues
+      DISABLE_ARTIFACT_UPLOAD: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: |
+          cd mcp-math
+          pip install flask
+          
+      - name: Test Python application
+        run: |
+          cd mcp-math
+          python -c "import mcp_math_agent; print('✓ Application loads successfully')"
+          
+      # Conditionally upload artifacts only if storage allows and necessary
+      - name: Upload results (conditional)
+        uses: actions/upload-artifact@v4
+        if: env.DISABLE_ARTIFACT_UPLOAD != 'true' && failure()
+        continue-on-error: true
+        with:
+          name: results-${{ github.run_id }}
+          path: |
+            /tmp/runtime-logs/
+            *.log
+          if-no-files-found: ignore
+          retention-days: 1
