@@ -53,6 +53,76 @@ Copilot: "La respuesta es: 56"
 
 > 📖 **Need detailed setup instructions?** See the [Complete VS Code Integration Guide](#vs-code-copilot-integration) below or [VSCODE_SETUP.md](VSCODE_SETUP.md) for a 5-minute setup guide.
 
+## 🏗️ How It Works
+
+### Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "VS Code Environment"
+        A[User] --> B[VS Code Copilot Chat]
+        B --> C[MCP Client]
+    end
+    
+    subgraph "System Process"
+        C --> D[MCP Math Server]
+        D --> E[Math Calculation Engine]
+    end
+    
+    subgraph "Communication Flow"
+        C -.->|MCP Protocol| D
+        D -.->|Spanish Response| C
+    end
+    
+    A --> |"¿Cuánto es 15+25?"| B
+    B --> |"La respuesta es: 40"| A
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style D fill:#e8f5e8
+    style E fill:#fff3e0
+```
+
+### Registration & Interaction Sequence
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant VS as VS Code
+    participant C as Copilot
+    participant MCP as MCP Client
+    participant S as MCP Math Server
+    
+    Note over U,S: Setup Phase
+    U->>VS: Configure mcpServers.json
+    VS->>MCP: Initialize MCP Client
+    MCP->>S: Start MCP Server Process
+    S->>MCP: Register tools (calcular_matematicas, calculate_math)
+    MCP->>C: Announce available tools
+    
+    Note over U,S: Runtime Phase
+    U->>C: "What is 15 + 25?"
+    C->>MCP: Discover math tools
+    MCP->>C: Return available tools
+    C->>MCP: Call calculate_math("15+25")
+    MCP->>S: Execute tool with expression
+    S->>S: Safely evaluate: 15+25=40
+    S->>MCP: Return "La respuesta es: 40"
+    MCP->>C: Tool response in Spanish
+    C->>U: "La respuesta es: 40"
+    
+    Note over U,S: Components communicate via MCP Protocol (stdio)
+```
+
+### Component Roles
+
+| Component | Role | Description |
+|-----------|------|-------------|
+| **VS Code Host** | Environment | Hosts Copilot and manages MCP client |
+| **Copilot Client** | AI Assistant | Processes user questions and orchestrates tool usage |
+| **MCP Client** | Protocol Bridge | Manages communication with MCP servers |
+| **MCP Math Server** | Tool Provider | Executes mathematical calculations safely |
+
 ## Features
 
 - ✅ **VS Code Copilot Integration** - Works seamlessly with GitHub Copilot
