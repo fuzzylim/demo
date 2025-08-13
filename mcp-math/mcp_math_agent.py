@@ -3,7 +3,8 @@ import re
 def solve_math_expression(expression):
     try:
         # Only allow numbers and basic operators for safety
-        if not re.match(r'^[0-9+\-*/(). ]+$', expression):
+        # Explicitly exclude ** (power operator) and other potentially dangerous operations
+        if not re.match(r'^[0-9+\-*/(). ]+$', expression) or '**' in expression:
             return "Expresión no válida."
         result = eval(expression, {"__builtins__": None}, {})
         return f"La respuesta es: {result}"

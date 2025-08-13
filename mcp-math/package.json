@@ -1,0 +1,34 @@
+{
+  "name": "mcp-math-spanish",
+  "version": "1.0.0",
+  "description": "MCP server that solves math problems and responds in Spanish",
+  "main": "mcp_server.py",
+  "scripts": {
+    "start": "python mcp_server.py"
+  },
+  "keywords": ["mcp", "math", "spanish", "calculator", "copilot"],
+  "dependencies": {
+    "mcp": ">=1.12.0",
+    "flask": ">=3.0.0"
+  },
+  "engines": {
+    "python": ">=3.8"
+  },
+  "mcp": {
+    "server": {
+      "command": "python",
+      "args": ["mcp_server.py"],
+      "transport": "stdio"
+    },
+    "tools": [
+      {
+        "name": "calcular_matematicas",
+        "description": "Calcula operaciones matemáticas y responde en español"
+      },
+      {
+        "name": "calculate_math", 
+        "description": "Calculate math operations and respond in Spanish"
+      }
+    ]
+  }
+}
